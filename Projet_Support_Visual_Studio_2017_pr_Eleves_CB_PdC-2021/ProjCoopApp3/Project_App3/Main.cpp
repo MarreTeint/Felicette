@@ -311,6 +311,8 @@ int main(int argc, char* args[])
 					}
 					break;
 				default:
+					Body test = Body("Terre", 200, 5, 20);
+					std::cout << "TEST BANANE";
 					break;
 				}
 			}
