@@ -1,22 +1,24 @@
 #include "Body.h"
 
 
-Body::Body(String name, float size, float mass)
+Body::Body(string name, float mass, double radius, Vector acc, Vector speed, Point pos)
 {
+
+	//Sphere attribute
+	Sphere(radius);
+	getAnim().setAccel(acc);
+	getAnim().setSpeed(speed);
+	
+
     // Constructor
     // Initialization
-    this.name = name;
-    this.size = size;
-    this.mass = mass;
-    this.speed = 0.0f //Default speed
+    setName(name);
+    setMass(mass);
 }
 
-Body::Body(String name, float size, float mass, float speed)
+void Body::update(double delta_t)
 {
-    // Constructor
-    // Initialization
-    this.name = name;
-    this.size = size;
-    this.mass = mass;
-    this.speed = speed;
+	Sphere::update(delta_t);
+
+	//Martin code là si il a besoin de la masse
 }

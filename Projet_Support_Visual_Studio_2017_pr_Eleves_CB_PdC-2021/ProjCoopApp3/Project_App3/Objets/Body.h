@@ -1,18 +1,19 @@
 #include <string>
+#include <geometry.h>
+#include <forms.h>
 using namespace std;
 
-class Corp
+class Body : public Sphere
 {
 private:
-    String name;
-    float size;
+    string name;
     float mass;
-    float speed;
+	void setName(string x) { name = x; }
+	void setMass(float x) { mass = x; }
 
 public:
-    String getName() const {return name;}
-    float getSize() const {return size;}
+	string getName() const {return name;}
     float getMass() const {return mass;}
-    float getSpeed() {return speed;}
-    void setSpeed(float x) {speed = x;}
+	Body(string name, float mass, double radius, Vector acc, Vector speed, Point pos);
+	void update(double delta_t);
 };

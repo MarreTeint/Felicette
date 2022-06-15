@@ -311,7 +311,7 @@ int main(int argc, char* args[])
 					}
 					break;
 				default:
-					simulation.run();
+					
 					break;
 				}
 			}
