@@ -1,0 +1,10 @@
+folder_to_ignore/.vs/
+.vs/ProjectSettings.json
+.vs/projet_transverse_1/v16/.suo
+.vs/projet_transverse_1/v16/Browse.VC.db
+.vs/projet_transverse_1/v16/Browse.VC.db-wal
+.vs/projet_transverse_1/v16/ipch/AutoPCH/1260393974b7193/MAIN.ipch
+.vs/slnx.sqlite
+.vs/projet_transverse_1/v16/Browse.VC.opendb
+.vs/VSWorkspaceState.json
+.vs/projet_transverse_1/v16/Browse.VC.db-shm
