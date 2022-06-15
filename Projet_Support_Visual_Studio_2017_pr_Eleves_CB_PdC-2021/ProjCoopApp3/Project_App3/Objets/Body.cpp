@@ -20,5 +20,5 @@ void Body::update(double delta_t)
 {
 	Sphere::update(delta_t);
 
-	//Martin code là si il a besoin de la masse
+	//Martin code lï¿½ si il a besoin de la masse
 }
