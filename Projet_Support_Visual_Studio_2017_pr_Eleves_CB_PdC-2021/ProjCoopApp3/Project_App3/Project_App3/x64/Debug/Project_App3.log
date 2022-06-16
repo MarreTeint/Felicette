@@ -1,7 +1,8 @@
 ﻿  animation.cpp
   forms.cpp
-p:\projcoopapp3\project_app3\forms.cpp(2): fatal error C1083: Impossible d'ouvrir le fichier include : 'gl\glew.h' : No such file or directory
+p:\app3\felicette\projet_transverse_1\projet_support_visual_studio_2017_pr_eleves_cb_pdc-2021\projcoopapp3\project_app3\forms.cpp(2): fatal error C1083: Impossible d'ouvrir le fichier include : 'gl\glew.h' : No such file or directory
   geometry.cpp
   Main.cpp
-p:\projcoopapp3\project_app3\main.cpp(5): fatal error C1083: Impossible d'ouvrir le fichier include : 'SDL.h' : No such file or directory
+p:\app3\felicette\projet_transverse_1\projet_support_visual_studio_2017_pr_eleves_cb_pdc-2021\projcoopapp3\project_app3\main.cpp(6): fatal error C1083: Impossible d'ouvrir le fichier include : 'SDL.h' : No such file or directory
+  Body.cpp
   Génération de code en cours...
