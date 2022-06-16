@@ -1,6 +1,6 @@
 #include <string>
-#include <geometry.h>
-#include <forms.h>
+#include "../geometry.h"
+#include "../forms.h"
 using namespace std;
 
 class Body : public Sphere
@@ -15,5 +15,5 @@ public:
 	string getName() const {return name;}
     float getMass() const {return mass;}
 	Body(string name, float mass, double radius, Vector acc, Vector speed, Point pos);
-	void update(double delta_t);
+	void update(double delta_t, int max_form, Form* forms_list[]);
 };
