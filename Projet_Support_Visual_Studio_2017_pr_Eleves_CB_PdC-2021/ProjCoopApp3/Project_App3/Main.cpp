@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 //Using SDL, SDL OpenGL, GLEW
 #include <SDL.h>
@@ -10,6 +11,7 @@
 #include "geometry.h"
 // Module for generating and rendering forms
 #include "forms.h"
+#include "Objets/Body.h"
 
 using namespace std;
 
@@ -272,6 +274,7 @@ int main(int argc, char* args[])
 		}
 		// Create here specific forms and add them to the list...
 		// Don't forget to update the actual number_of_forms !
+		vector<Body> bodies;
 		Cube_face *pFace = NULL;
 		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(-0.5, -0.5, -0.5), 1, 1, ORANGE);
 		forms_list[number_of_forms] = pFace;

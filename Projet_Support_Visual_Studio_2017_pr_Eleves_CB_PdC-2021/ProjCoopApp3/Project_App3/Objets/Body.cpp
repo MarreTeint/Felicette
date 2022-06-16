@@ -1,6 +1,7 @@
 #include "Body.h"
 #include "../forms.h"
 #include <vector>
+#include <iostream>
 
 
 Body::Body(string name, float mass, double radius, Vector acc, Vector speed, Point pos)
@@ -18,7 +19,7 @@ Body::Body(string name, float mass, double radius, Vector acc, Vector speed, Poi
     setMass(mass);
 }
 
-void Body::update(double delta_t, int max_form,Form* forms_list[])
+void Body::update(double delta_t, vector<Body> bodies)
 {
 	Sphere::update(delta_t);
 
@@ -26,12 +27,16 @@ void Body::update(double delta_t, int max_form,Form* forms_list[])
 	//Calcul acceleration
 	// get all object Body
 	
-	for (int i = 0; i < max_form; i++) {
-		forms_list[i].name();
-	}
-	
-	//vitesse
-	
-	//position
+	/*for (int i = 0; i < bodies.size(); i++) {
+		//Calcul distance
+
+		//Calcul angle
+		
+		//Calcul acceleration
+
+		//Calcul speed
+		
+		//Calcul position
+	}*/
 	
 }
