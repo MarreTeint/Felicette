@@ -1,16 +1,2 @@
-folder_to_ignore/.vs/
-.vs/ProjectSettings.json
-.vs/projet_transverse_1/v16/.suo
-.vs/projet_transverse_1/v16/Browse.VC.db
-.vs/projet_transverse_1/v16/Browse.VC.db-wal
-.vs/projet_transverse_1/v16/ipch/AutoPCH/1260393974b7193/MAIN.ipch
-.vs/slnx.sqlite
-.vs/projet_transverse_1/v16/Browse.VC.opendb
-.vs/VSWorkspaceState.json
-.vs/projet_transverse_1/v16/Browse.VC.db-shm
-.vs/PJT/FileContentIndex/ac7d0666-a959-4215-a56d-510696dbce47.vsidx
-.vs/PJT/FileContentIndex/da2d5b55-abc5-46c7-880c-5b895f168cb7.vsidx
-.vs/PJT/FileContentIndex/read.lock
-.vs/PJT/v16/.suo
-/.vs/Projet/v17
+.vs/
 /Projet_Support_Visual_Studio_2017_pr_Eleves_CB_PdC-2021/ProjCoopApp3/Project_App3/.vs/Project_App3
