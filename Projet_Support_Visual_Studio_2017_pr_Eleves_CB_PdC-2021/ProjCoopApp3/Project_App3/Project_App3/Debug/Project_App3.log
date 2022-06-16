@@ -2,5 +2,6 @@
   forms.cpp
   geometry.cpp
   Main.cpp
+  Body.cpp
+p:\documents\visual\projet_transverse_1\projet_support_visual_studio_2017_pr_eleves_cb_pdc-2021\projcoopapp3\project_app3\objets\body.h(2): fatal error C1083: Impossible d'ouvrir le fichier include : 'geometry.h' : No such file or directory
   Génération de code en cours...
-  Project_App3.vcxproj -> C:\Users\marti\Desktop\Projet\Projet_Support_Visual_Studio_2017_pr_Eleves_CB_PdC-2021\ProjCoopApp3\Project_App3\Debug\Project_App3.exe
