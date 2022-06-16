@@ -1,4 +1,5 @@
 #include "Body.h"
+#include "../forms.h"
 
 
 Body::Body(string name, float mass, double radius, Vector acc, Vector speed, Point pos)
@@ -21,4 +22,11 @@ void Body::update(double delta_t)
 	Sphere::update(delta_t);
 
 	//Martin code l� si il a besoin de la masse
+	//Calcul acceleration
+	
+	
+	//vitesse
+	
+	//position
+	
 }
