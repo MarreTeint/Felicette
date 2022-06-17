@@ -20,7 +20,9 @@ class Point : public Coordinates
 public:
     // Point constructor calls the base class constructor and do nothing more
     Point(double xx=0, double yy=0, double zz=0) : Coordinates(xx, yy, zz) {}
-    void translate(const Vector &);
+    //Instantiate a Point with a vector
+    Point(Vector vector) : Coordinates(vector.x, vector.y, vector.z) {}
+    void translate(const Vector&);
 };
 
 
@@ -31,6 +33,8 @@ public:
     Vector(double xx=0, double yy=0, double zz=0) : Coordinates(xx, yy, zz) {}
     // Or with two points
     Vector(Point, Point);
+    //Instantiate a Vector with one point (pratical and not mathematical)
+    Vector(Point point);
     // Compute the vector norm
     double norm();
     Vector integral(double delta_t);
