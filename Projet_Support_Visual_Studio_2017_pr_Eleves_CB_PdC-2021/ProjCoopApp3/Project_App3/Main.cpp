@@ -273,6 +273,7 @@ int main(int argc, char* args[])
 			forms_list[i] = NULL;
 		}
 		// Create here specific forms and add them to the list...
+		//Body test = Body("name", 55, 10, Vector(1, 0, 0), Vector(1, 0, 0), Point(-0.5, -0.5, -0.5));
 		// Don't forget to update the actual number_of_forms !
 		vector<Body> bodies;
 		Cube_face *pFace = NULL;
