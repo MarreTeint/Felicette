@@ -263,7 +263,7 @@ int main(int argc, char* args[])
 		SDL_Event event;
 
 		// Camera position
-		Point camera_position(0, 0.0, 5.0);
+		Point camera_position(0.0, 0.0, 5.0);
 
 		// The forms to render
 		Form* forms_list[MAX_FORMS_NUMBER];
@@ -276,11 +276,15 @@ int main(int argc, char* args[])
 		//Body test = Body("name", 55, 10, Vector(1, 0, 0), Vector(1, 0, 0), Point(-0.5, -0.5, -0.5));
 		// Don't forget to update the actual number_of_forms !
 		vector<Body> bodies;
+		Body *soleil = NULL;
+		soleil = new Body("Soleil", 1.989*pow(10, 30), 0.5, Vector(0, 0, 0), Vector(0, 0, 0), Point(0, 0, 0));
 		Cube_face *pFace = NULL;
 		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(-0.5, -0.5, -0.5), 1, 1, ORANGE);
-		forms_list[number_of_forms] = pFace;
+		forms_list[number_of_forms] = soleil;
+		bodies.push_back(*soleil);
 		number_of_forms++;
-
+		forms_list[number_of_forms] = pFace;
+		 
 		// Get first "current time"
 		previous_time = SDL_GetTicks();
 		// While application is running
