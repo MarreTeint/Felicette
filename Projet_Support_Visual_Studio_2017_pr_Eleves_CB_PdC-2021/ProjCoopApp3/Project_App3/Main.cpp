@@ -191,7 +191,7 @@ void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos)
 	glLoadIdentity();
 
 	// Set the camera position and parameters
-	gluLookAt(cam_pos.x, cam_pos.y, cam_pos.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(cam_pos.x, cam_pos.y, cam_pos.z, 0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	// Isometric view
 	glRotated(-45, 0, 1, 0);
 	glRotated(30, 1, 0, -1);
@@ -276,7 +276,7 @@ int main(int argc, char* args[])
 		// Don't forget to update the actual number_of_forms !
 		vector<Body> bodies;
 		Cube_face *pFace = NULL;
-		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(-0.5, -0.5, -0.5), 1, 1, ORANGE);
+		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(-0.5, -0.5, -0.5), 1, 1, BLUE);
 		forms_list[number_of_forms] = pFace;
 		number_of_forms++;
 
