@@ -44,7 +44,7 @@ void Sphere::render()
 
     quad = gluNewQuadric();
 
-    // Complete this part
+	gluSphere(quad, radius, 65536, 65536);
 
     gluDeleteQuadric(quad);
 }

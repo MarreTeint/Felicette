@@ -8,7 +8,7 @@ Body::Body(string name, float mass, double radius, Vector acc, Vector speed, Poi
 {
 
 	//Sphere attribute
-	//Sphere(radius);
+	setRadius(radius);
 	getAnim().setAccel(acc);
 	getAnim().setSpeed(speed);
 	
