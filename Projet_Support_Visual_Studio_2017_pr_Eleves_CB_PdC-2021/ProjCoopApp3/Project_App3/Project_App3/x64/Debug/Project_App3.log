@@ -1,1 +1,9 @@
 ﻿C:\Program Files (x86)\VStudio15\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Platform.targets(67,5): error MSB8020: Les outils de génération pour v143 (ensemble d'outils de plateforme = 'v143') sont introuvables. Pour générer à l'aide des outils de génération v143, installez les outils de génération v143. Vous avez également la possibilité de mettre à niveau les outils Visual Studio actuels en sélectionnant le menu Projet ou en cliquant avec le bouton droit sur la solution, puis en sélectionnant "Recibler la solution".
+﻿  animation.cpp
+  forms.cpp
+p:\app3\felicette\projet_transverse_1\projet_support_visual_studio_2017_pr_eleves_cb_pdc-2021\projcoopapp3\project_app3\forms.cpp(2): fatal error C1083: Impossible d'ouvrir le fichier include : 'gl\glew.h' : No such file or directory
+  geometry.cpp
+  Main.cpp
+p:\app3\felicette\projet_transverse_1\projet_support_visual_studio_2017_pr_eleves_cb_pdc-2021\projcoopapp3\project_app3\main.cpp(6): fatal error C1083: Impossible d'ouvrir le fichier include : 'SDL.h' : No such file or directory
+  Body.cpp
+  Génération de code en cours...

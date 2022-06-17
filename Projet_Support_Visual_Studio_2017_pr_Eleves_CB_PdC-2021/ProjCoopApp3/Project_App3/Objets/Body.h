@@ -19,3 +19,21 @@ public:
 	Body(string name, float mass, double radius, Vector acc, Vector speed, Point pos);
 	void update(double delta_t, vector<Body> bodies);
 };
+
+class Camera : public Form
+{
+private:
+	Point lookTarget;
+	Vector offset;
+
+public:
+	Point getLookTarget() const { return lookTarget; }
+	void setLookTarget(Point target) { lookTarget = target; }
+	Vector getOffset() const { return offset; }
+	void setOffset(Vector os) { offset = os; }
+
+	Camera(Point lTarget, Vector os);
+
+	void update(double delta_t);
+	void render();
+};
