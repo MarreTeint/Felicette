@@ -15,7 +15,6 @@
 
 using namespace std;
 
-
 /***************************************************************************/
 /* Constants and functions declarations                                    */
 /***************************************************************************/
@@ -29,6 +28,7 @@ const int MAX_FORMS_NUMBER = 10;
 // Animation actualization delay (in ms) => 100 updates per second
 const Uint32 ANIM_DELAY = 10;
 
+const int CAM_SPEED = 5;
 
 // Starts up SDL, creates window, and initializes OpenGL
 bool init(SDL_Window** window, SDL_GLContext* context);
@@ -181,7 +181,7 @@ void update(Form* formlist[MAX_FORMS_NUMBER], double delta_t)
 	}
 }
 
-void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos)
+void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
 {
 	// Clear color buffer and Z-Buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -191,10 +191,12 @@ void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos)
 	glLoadIdentity();
 
 	// Set the camera position and parameters
-	gluLookAt(cam_pos.x, cam_pos.y, cam_pos.z, 0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	// Isometric view
-	glRotated(-45, 0, 1, 0);
-	glRotated(30, 1, 0, -1);
+	gluLookAt(cam.getAnim().getPos().x, cam.getAnim().getPos().y, cam.getAnim().getPos().z, cam.getLookTarget().x, cam.getLookTarget().y, cam.getLookTarget().z, 0.0, 1.0, 0.0);
+	
+	Vector camVec = Vector(cam.getLookTarget().x - cam.getAnim().getPos().x, cam.getLookTarget().y - cam.getAnim().getPos().y, cam.getLookTarget().z - cam.getAnim().getPos().z);
+	Vector horizCam = camVec ^ Vector(0, 1, 0);
+	//glRotated(cam.getAnim().getPhi(), 0, 1, 0);
+	glRotated(cam.getAnim().getTheta(), horizCam.x, horizCam.y, horizCam.z);
 
 	// X, Y and Z axis
 	glPushMatrix(); // Preserve the camera viewing point for further forms
@@ -276,9 +278,10 @@ int main(int argc, char* args[])
 		// Don't forget to update the actual number_of_forms !
 		vector<Body> bodies;
 		Cube_face *pFace = NULL;
-		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(-0.5, -0.5, -0.5), 1, 1, BLUE);
+		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(0, 0, 0), 1, 1, BLUE);
 		forms_list[number_of_forms] = pFace;
 		number_of_forms++;
+		Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
 
 		// Get first "current time"
 		previous_time = SDL_GetTicks();
@@ -308,6 +311,18 @@ int main(int argc, char* args[])
 					case SDLK_ESCAPE:
 						quit = true;
 						break;
+					case SDLK_UP:
+						camera.getAnim().incrTheta(-CAM_SPEED);
+						break;
+					case SDLK_DOWN:
+						camera.getAnim().incrTheta(CAM_SPEED);
+						break;
+					case SDLK_LEFT:
+						camera.rotAround(0.1, Vector(0, 1, 0));
+						break;
+					case SDLK_RIGHT:
+						camera.rotAround(-0.1, Vector(0, 1, 0));
+						break;
 
 					default:
 						break;
@@ -326,10 +341,11 @@ int main(int argc, char* args[])
 			{
 				previous_time = current_time;
 				update(forms_list, 1e-3 * elapsed_time); // International system units : seconds
+				camera.update(1e-3 * elapsed_time);
 			}
 
 			// Render the scene
-			render(forms_list, camera_position);
+			render(forms_list, camera);
 
 			// Update window screen
 			SDL_GL_SwapWindow(gWindow);
@@ -341,4 +357,3 @@ int main(int argc, char* args[])
 
 	return 0;
 }
-

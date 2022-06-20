@@ -24,15 +24,13 @@ class Camera : public Form
 {
 private:
 	Point lookTarget;
-	Vector offset;
 
 public:
 	Point getLookTarget() const { return lookTarget; }
 	void setLookTarget(Point target) { lookTarget = target; }
-	Vector getOffset() const { return offset; }
-	void setOffset(Vector os) { offset = os; }
 
-	Camera(Point lTarget, Vector os);
+	Camera(Point lTarget, Point pos);
+	void rotAround(double angle, Vector v);
 
 	void update(double delta_t);
 	void render();
