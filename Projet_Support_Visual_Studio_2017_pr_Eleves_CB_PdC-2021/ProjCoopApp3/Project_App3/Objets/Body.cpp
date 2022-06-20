@@ -57,7 +57,7 @@ void Body::update(double delta_t, vector<Body> bodies)
 
 void Camera::update(double delta_t)
 {
-	Form::update(delta_t);
+	
 }
 
 void Camera::render()
@@ -65,11 +65,18 @@ void Camera::render()
 	Form::render();
 }
 
-Camera::Camera(Point lTarget, Vector os)
+Camera::Camera(Point lTarget, Point pos)
 {
 	//Form attribute
 
 	//Camera attribute
 	setLookTarget(lTarget);
-	setOffset(os);
+	anim.setPos(pos);
+}
+
+void Camera::rotAround(double angle, Vector v)
+{
+	Vector posVect(anim.getPos().x, anim.getPos().y, anim.getPos().z);
+	Vector newPosVect = rodriguesRot(posVect, 1 / v.norm() * v, angle);
+	anim.setPos(Point(newPosVect.x, newPosVect.y, newPosVect.z));
 }

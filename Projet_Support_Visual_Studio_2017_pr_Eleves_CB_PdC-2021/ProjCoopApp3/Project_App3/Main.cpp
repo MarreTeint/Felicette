@@ -15,7 +15,6 @@
 
 using namespace std;
 
-
 /***************************************************************************/
 /* Constants and functions declarations                                    */
 /***************************************************************************/
@@ -29,6 +28,7 @@ const int MAX_FORMS_NUMBER = 10;
 // Animation actualization delay (in ms) => 100 updates per second
 const Uint32 ANIM_DELAY = 10;
 
+const int CAM_SPEED = 5;
 
 // Starts up SDL, creates window, and initializes OpenGL
 bool init(SDL_Window** window, SDL_GLContext* context);
@@ -181,7 +181,7 @@ void update(Form* formlist[MAX_FORMS_NUMBER], double delta_t)
 	}
 }
 
-void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos)
+void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
 {
 	// Clear color buffer and Z-Buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -191,10 +191,15 @@ void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos)
 	glLoadIdentity();
 
 	// Set the camera position and parameters
-	gluLookAt(cam_pos.x, cam_pos.y, cam_pos.z, 0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	// Isometric view
-	glRotated(-45, 0, 1, 0);
-	glRotated(30, 1, 0, -1);
+	gluLookAt(cam.getAnim().getPos().x, cam.getAnim().getPos().y, cam.getAnim().getPos().z, 0, 0, 0, 0.0, 1.0, 0.0);
+	glTranslated(-cam.getLookTarget().x, -cam.getLookTarget().y, -cam.getLookTarget().z);
+	
+	Vector camVec = Vector(cam.getLookTarget().x - cam.getAnim().getPos().x, cam.getLookTarget().y - cam.getAnim().getPos().y, cam.getLookTarget().z - cam.getAnim().getPos().z);
+	Vector horizCam = camVec ^ Vector(0, 1, 0);
+	horizCam = 1 / horizCam.norm() * horizCam;
+	glRotated(cam.getAnim().getPhi(), 0, 1, 0);
+	glRotated(cam.getAnim().getTheta(), horizCam.x, horizCam.y, horizCam.z);
+	glScaled(cam.getZoom(), cam.getZoom(), cam.getZoom());
 
 	// X, Y and Z axis
 	glPushMatrix(); // Preserve the camera viewing point for further forms
@@ -262,9 +267,6 @@ int main(int argc, char* args[])
 		// Event handler
 		SDL_Event event;
 
-		// Camera position
-		Point camera_position(0.0, 0.0, 5.0);
-
 		// The forms to render
 		Form* forms_list[MAX_FORMS_NUMBER];
 		unsigned short number_of_forms = 0, i;
@@ -273,18 +275,29 @@ int main(int argc, char* args[])
 			forms_list[i] = NULL;
 		}
 		// Create here specific forms and add them to the list...
-		//Body test = Body("name", 55, 10, Vector(1, 0, 0), Vector(1, 0, 0), Point(-0.5, -0.5, -0.5));
+
 		// Don't forget to update the actual number_of_forms !
 		vector<Body> bodies;
 		Body *soleil = NULL;
 		soleil = new Body("Soleil", 1.989*pow(10, 30), 0.5, Vector(0, 0, 0), Vector(0, 0, 0), Point(0, 0, 0));
-		//Cube_face *pFace = NULL;
-		//pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(-0.5, -0.5, -0.5), 1, 1, ORANGE);
 		forms_list[number_of_forms] = soleil;
 		bodies.push_back(*soleil);
 		number_of_forms++;
-		//forms_list[number_of_forms] = pFace;
-		 
+
+		Cube_face *pFace = NULL;
+		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(0, 0, 0), 1, 1, ORANGE);
+		forms_list[number_of_forms] = pFace;
+		number_of_forms++;
+		Sphere *sph = NULL;
+		sph = new Sphere(0.2, BLUE);
+		forms_list[number_of_forms] = sph;
+		number_of_forms++;
+
+		Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
+		camera.setZoom(1);
+
+		int click = 0;
+		
 		// Get first "current time"
 		previous_time = SDL_GetTicks();
 		// While application is running
@@ -295,16 +308,18 @@ int main(int argc, char* args[])
 			{
 				int x = 0, y = 0;
 				SDL_Keycode key_pressed = event.key.keysym.sym;
-
+				SDL_GetRelativeMouseState(&x, &y);
+				
 				switch (event.type)
 				{
 					// User requests quit
 				case SDL_QUIT:
 					quit = true;
 					break;
+
+				// KEYBOARD CONTROLS
 				case SDL_KEYDOWN:
 					// Handle key pressed with current mouse position
-					SDL_GetMouseState(&x, &y);
 
 					switch (key_pressed)
 					{
@@ -313,13 +328,48 @@ int main(int argc, char* args[])
 					case SDLK_ESCAPE:
 						quit = true;
 						break;
+					case SDLK_UP:
+						camera.getAnim().incrTheta(-1);
+						break;
+					case SDLK_DOWN:
+						camera.getAnim().incrTheta(1);
+						break;
+					case SDLK_LEFT:
+						camera.getAnim().incrPhi(1);
+						break;
+					case SDLK_RIGHT:
+						camera.getAnim().incrPhi(-1);
+						break;
 
 					default:
 						break;
 					}
 					break;
+				//MOUSECONTROL
+				case SDL_MOUSEMOTION:
+					if (click == 1)
+					{
+						camera.getAnim().incrPhi(x);
+						camera.getAnim().incrTheta(y);
+					}
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					click = 1;
+					break;
+				case SDL_MOUSEBUTTONUP:
+					click = 0;
+					break;
+				case SDL_MOUSEWHEEL:
+					if (event.wheel.y > 0) // scroll up
+					{
+						camera.incrZoom(10);
+					}
+					if (event.wheel.y < 0)
+					{
+						camera.incrZoom(-10);
+					}
+
 				default:
-					
 					break;
 				}
 			}
@@ -331,10 +381,11 @@ int main(int argc, char* args[])
 			{
 				previous_time = current_time;
 				update(forms_list, 1e-3 * elapsed_time); // International system units : seconds
+				camera.update(1e-3 * elapsed_time);
 			}
 
 			// Render the scene
-			render(forms_list, camera_position);
+			render(forms_list, camera);
 
 			// Update window screen
 			SDL_GL_SwapWindow(gWindow);
@@ -346,4 +397,3 @@ int main(int argc, char* args[])
 
 	return 0;
 }
-

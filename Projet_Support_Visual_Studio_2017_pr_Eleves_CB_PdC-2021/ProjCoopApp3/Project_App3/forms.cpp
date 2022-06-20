@@ -44,7 +44,7 @@ void Sphere::render()
 
     quad = gluNewQuadric();
 
-	gluSphere(quad, radius, 65536, 65536);
+	gluSphere(quad, radius, 16, 16);
 
     gluDeleteQuadric(quad);
 }
@@ -59,7 +59,6 @@ Cube_face::Cube_face(Vector v1, Vector v2, Point org, double l, double w, Color 
     width = w;
     col = cl;
 }
-
 
 void Cube_face::update(double delta_t)
 {
