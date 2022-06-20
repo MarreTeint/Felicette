@@ -17,13 +17,6 @@ Vector::Vector(Point p1, Point p2)
     z = p2.z - p1.z;
 }
 
-Vector::Vector(Point point)
-{
-    x = point.x;
-    y = point.y;
-    z = point.z;
-}
-
 
 double Vector::norm()
 {
