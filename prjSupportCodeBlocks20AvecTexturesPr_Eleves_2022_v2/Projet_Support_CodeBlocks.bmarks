@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<BrowseTracker_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="include\geometry.h" open="1" top="0" tabpos="5">
+		<Cursor position="300" topLine="0" />
+	</File>
+	<File name="include\animation.h" open="1" top="0" tabpos="7">
+		<Cursor position="901" topLine="0" />
+	</File>
+	<File name="include\forms.h" open="1" top="0" tabpos="6">
+		<Cursor position="1215" topLine="0" />
+		<BrowseMarks positions="1825" />
+	</File>
+	<File name="src\first_prog.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="12705" topLine="37" />
+		<Book_Marks positions="12678" />
+	</File>
+	<File name="src\forms.cpp" open="1" top="1" tabpos="3">
+		<Cursor position="574" topLine="0" />
+		<BrowseMarks positions="1814,3968" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="src\animation.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="106" topLine="0" />
+	</File>
+	<File name="src\geometry.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="248" topLine="14" />
+	</File>
+</BrowseTracker_layout_file>
