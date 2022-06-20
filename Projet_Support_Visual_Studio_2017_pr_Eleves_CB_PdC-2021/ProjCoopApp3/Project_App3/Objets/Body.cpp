@@ -43,10 +43,7 @@ void Body::update(double delta_t, vector<Body> bodies)
 
 void Camera::update(double delta_t)
 {
-	/*Point temp = anim.getPos();
-	temp.translate(Vector(1*delta_t, 0, 0));
-	anim.setPos(temp);*/
-	/*getAnim().setPhi(getAnim().getPhi() + 1);*/
+	
 }
 
 void Camera::render()

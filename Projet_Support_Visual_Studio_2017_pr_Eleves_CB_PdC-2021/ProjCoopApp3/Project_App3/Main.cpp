@@ -276,10 +276,13 @@ int main(int argc, char* args[])
 		}
 		// Create here specific forms and add them to the list...
 		// Don't forget to update the actual number_of_forms !
-		vector<Body> bodies;
 		Cube_face *pFace = NULL;
 		pFace = new Cube_face(Vector(1, 0, 0), Vector(0, 1, 0), Point(0, 0, 0), 1, 1, ORANGE);
 		forms_list[number_of_forms] = pFace;
+		number_of_forms++;
+		Sphere *sph = NULL;
+		sph = new Sphere(0.2, BLUE);
+		forms_list[number_of_forms] = sph;
 		number_of_forms++;
 
 		Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
