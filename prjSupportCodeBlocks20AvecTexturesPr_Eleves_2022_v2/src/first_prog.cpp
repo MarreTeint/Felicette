@@ -317,7 +317,7 @@ int main(int argc, char* args[])
         SDL_Event event;
 
         // Camera position
-        double hCam = 400;
+        double hCam = 4000;
         double rho = -45;
         Point camera_position;
 
@@ -370,19 +370,19 @@ int main(int argc, char* args[])
         std::vector<Body> bodies;
 
         Body* pSphere2 = NULL;
-        pSphere2 = new Body("Soleil",19890000000,1,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere2 = new Body("Soleil",19890000,69,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere2->setTexture(soleil);
         //forms_list[number_of_forms] = pSphere2;
         bodies.push_back(*pSphere2);
         //number_of_forms++;
 
-        Body* pSphere3 = NULL;
-        pSphere3 = new Body("Mercure",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(3,0,0));
+       Body* pSphere3 = NULL;
+        pSphere3 = new Body("Mercure",3.3,200,Vector(0,0,0),Vector(0,700,0), Point(74,0,0));
         pSphere3->setTexture(mercure);
 //        forms_list[number_of_forms] = pSphere3;
         bodies.push_back(*pSphere3);
   //      number_of_forms++;
-
+/*
         Body* pSphere4 = NULL;
         pSphere4 = new Body("Venus",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(6,0,0));
         pSphere4->setTexture(venus);
@@ -430,7 +430,7 @@ int main(int argc, char* args[])
         pSphere9->setTexture(neptune);
    //     forms_list[number_of_forms] = pSphere9;
         bodies.push_back(*pSphere9);
-    //    number_of_forms++;
+    //    number_of_forms++;*/
 
         /*Body* pSphere2 = NULL;
         Animation sphAnim2;
