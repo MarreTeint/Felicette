@@ -42,12 +42,12 @@ void Sphere::update(double delta_t)
     // OM et V etant des vecteurs
     // O : point origine du repere, M : point barycentre de l objet
     // V : vecteur vitesse de l objet
-    /*Point ptM=this->anim.getPos();
+    Point ptM=this->anim.getPos();
     Vector OM(Point(0,0,0),ptM);
     Vector vit;
     Vector g(0,-9.81,0);
-    vit = this->anim.getSpeed() + 0.01*delta_t*g;
-    this->anim.setSpeed(vit);
+    //vit = this->anim.getSpeed() + 0.01*delta_t*g;
+    //this->anim.setSpeed(anim.getSpeed());
     OM = OM + delta_t*this->anim.getSpeed();
     ptM=Point(OM.x,OM.y,OM.z);
     this->anim.setPos(ptM);
@@ -71,7 +71,7 @@ void Sphere::update(double delta_t)
     while(angle>360){
             angle=angle-360;
     }
-    this->anim.setTheta(angle);*/
+    this->anim.setTheta(angle);
 }
 
 
@@ -158,9 +158,10 @@ Body::Body(std::string name, float mass, double radius, Vector acc, Vector speed
 {
 
 	//Sphere attribute
-	setRadius(radius);
-	getAnim().setAccel(acc);
-	getAnim().setSpeed(speed);
+	Sphere::setRadius(radius);
+	this->getAnim().setAccel(acc);
+	this->getAnim().setSpeed(speed);
+	this->getAnim().setPos(pos);
 
 
     // Constructor
@@ -171,36 +172,48 @@ Body::Body(std::string name, float mass, double radius, Vector acc, Vector speed
 
 void Body::update(double delta_t, std::vector<Body> bodies)
 {
-	Sphere::update(delta_t);
+
 
 	//Martin code l� si il a besoin de la masse
 	//Calcul acceleration
 	// get all object Body
 
 
-		Vector vIni = getAnim().getSpeed();
-		Point posIni = getAnim().getPos();
+		Vector vIni = this->getAnim().getSpeed();
+		Point posIni = this->getAnim().getPos();
 		const float G = 6.67408*pow(10, -11);
 		std::vector<Vector> vectors;
+
 		for (int j = 0; j < bodies.size(); j++) {
+
 			Point contact = bodies.at(j).getAnim().getPos();
-			if (posIni.x != contact.x && posIni.y != contact.y && posIni.z != contact.z) {
+			if (this->getName() != bodies.at(j).getName()) {
+
 				//Calculer la distance
 				double dist = distance(posIni, contact);//sqrt(pow((contact.x-posIni.x),2) + pow((contact.y - posIni.y),2) + pow((contact.z - posIni.z),2));
+
 				//Calculer la gravitée
 				float grav = (G* getMass()*bodies.at(j).getMass()) / dist;
+				grav=grav*pow(10,5);
 				Vector vgrav = Vector(grav*(contact.x-posIni.x)/dist, grav*(contact.y - posIni.y) / dist, grav*(contact.z - posIni.z) / dist);
 				vectors.push_back(vgrav);
 			}
 		}
 		//Donner un vecteur gravité global
-		Vector graGlobal;
+		Vector graGlobal = Vector(0,0,0);
 		for (int k = 0; k < vectors.size(); k++) {
 			graGlobal = graGlobal + vectors.at(k);
 		}
 		//Calculer new position
-		Point newPos = (1/2*graGlobal.x*pow(delta_t, 2) + vIni.x*delta_t + posIni.x, 1/2*graGlobal.y*pow(delta_t, 2) + vIni.y*delta_t + posIni.y, 1/2*graGlobal.z*pow(delta_t, 2) + vIni.z*delta_t + posIni.z);
+		Vector newSpeed = Vector(graGlobal.x*delta_t + vIni.x, graGlobal.y*delta_t + vIni.y, graGlobal.z*delta_t + vIni.z);
+		Point newPos = Point(1/2*graGlobal.x*pow(delta_t, 2) + vIni.x*delta_t + posIni.x, 1/2*graGlobal.y*pow(delta_t, 2) + vIni.y*delta_t + posIni.y, 1/2*graGlobal.z*pow(delta_t, 2) + vIni.z*delta_t + posIni.z);
 		//setter
-		getAnim().setPos(newPos);
+		this->anim.setSpeed(newSpeed);
+		this->anim.setPos(newPos);
+		//std::cout<<name<<" x : "<<newPos.x<<" y : "<<newPos.y<<" z : "<<newPos.z<<std::endl;
+		Sphere::update(delta_t);
+}
 
+void Body::render(){
+    Sphere::render();
 }
