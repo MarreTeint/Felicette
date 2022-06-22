@@ -193,9 +193,10 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 				double dist = distance(posIni, contact);//sqrt(pow((contact.x-posIni.x),2) + pow((contact.y - posIni.y),2) + pow((contact.z - posIni.z),2));
 
 				//Calculer la gravitée
-				float grav = (G* getMass()*bodies.at(j).getMass()) / dist;
-				grav=grav*pow(10,5);
+				float grav = (G* bodies.at(j).getMass()) / pow(dist,2);
+				grav=grav*pow(10,10);
 				Vector vgrav = Vector(grav*(contact.x-posIni.x)/dist, grav*(contact.y - posIni.y) / dist, grav*(contact.z - posIni.z) / dist);
+				std::cout<<vgrav.norm()/grav<<std::endl;
 				vectors.push_back(vgrav);
 			}
 		}
@@ -210,8 +211,9 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 		//setter
 		this->anim.setSpeed(newSpeed);
 		this->anim.setPos(newPos);
-		//std::cout<<name<<" x : "<<newPos.x<<" y : "<<newPos.y<<" z : "<<newPos.z<<std::endl;
-		Sphere::update(delta_t);
+		/*std::cout<<"Vitesse "<<name<<" x : "<<newSpeed.x<<" y : "<<newSpeed.y<<" z : "<<newSpeed.z<<std::endl;
+		std::cout<<name<<" x : "<<newPos.x<<" y : "<<newPos.y<<" z : "<<newPos.z<<std::endl;*/
+		//Sphere::update(delta_t);
 }
 
 void Body::render(){

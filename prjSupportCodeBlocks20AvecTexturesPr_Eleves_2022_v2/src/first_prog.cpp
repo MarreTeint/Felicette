@@ -20,8 +20,8 @@
 /* Constants and functions declarations                                    */
 /***************************************************************************/
 // Screen dimension constants
-const int SCREEN_WIDTH = 1024;
-const int SCREEN_HEIGHT = 768;
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
 //const int SCREEN_WIDTH = 640;
 //const int SCREEN_HEIGHT = 480;
 
@@ -29,7 +29,7 @@ const int SCREEN_HEIGHT = 768;
 const int MAX_FORMS_NUMBER = 10;
 
 // Animation actualization delay (in ms) => 100 updates per second
-const Uint32 ANIM_DELAY = 10;
+const Uint32 ANIM_DELAY = 40;
 
 // Render actualization delay 40 (in ms) => 25 updates per second
 const Uint32 FRAME_DELAY = 40;
@@ -363,7 +363,7 @@ int main(int argc, char* args[])
         std::vector<Body> bodies;
         Body* pSphere = NULL;
         Animation sphAnim;
-        pSphere = new Body("Terre",597.2,1,Vector(0,0,0),Vector(0,0,0), Point(3,0,0));
+        pSphere = new Body("Terre",597.2,1,Vector(0,0,0),Vector(1,0,0), Point(3,0,0));
 
 
         pSphere->setTexture(textureid_1);
@@ -479,7 +479,7 @@ int main(int argc, char* args[])
             {
                 previous_time_render = current_time;
                 render(forms_list, camera_position, rho);
-                std::cout<<bodies.at(0).getAnim().getPos().x<<std::endl;
+
 
                 // Update window screen
                 SDL_GL_SwapWindow(gWindow);
