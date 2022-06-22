@@ -34,7 +34,8 @@ Sphere::Sphere(double r, Color cl)
 
 void Sphere::update(double delta_t)
 {
-    // Complete this part
+	Point pos = getAnim().getPos();
+	getAnim().setPos(Point(pos.x, pos.y + 0.1*delta_t, pos.z));
 }
 
 

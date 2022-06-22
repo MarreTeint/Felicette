@@ -292,7 +292,6 @@ int main(int argc, char* args[])
 
 		int click = 0;
 		int cameraTargetId = 0;
-		int cameraIsSwitchingTarget = 0;
 		// Get first "current time"
 		previous_time = SDL_GetTicks();
 		// While application is running
@@ -338,7 +337,6 @@ int main(int argc, char* args[])
 						break;
 					// Camera target cycle
 					case SDLK_TAB:
-						cameraIsSwitchingTarget = 1;
 						cameraTargetId = (cameraTargetId + 1) % number_of_forms;
 					default:
 						break;
@@ -372,14 +370,6 @@ int main(int argc, char* args[])
 					break;
 				}
 			}
-			// Update camera target
-			if (cameraIsSwitchingTarget == 1)
-			{
-				cameraIsSwitchingTarget = 0;
-				Point newTargetPos = forms_list[cameraTargetId]->getAnim().getPos();
-				camera.setLookTarget(newTargetPos);
-				camera.getAnim().setPos(Point(newTargetPos.x + 2, newTargetPos.y + 2, newTargetPos.z + 2));
-			}
 
 			// Update the scene
 			current_time = SDL_GetTicks(); // get the elapsed time from SDL initialization (ms)
@@ -388,7 +378,10 @@ int main(int argc, char* args[])
 			{
 				previous_time = current_time;
 				update(forms_list, 1e-3 * elapsed_time); // International system units : seconds
-				camera.update(1e-3 * elapsed_time);
+				// Camera update
+				Point newTargetPos = forms_list[cameraTargetId]->getAnim().getPos();
+				camera.setLookTarget(newTargetPos);
+				camera.getAnim().setPos(Point(newTargetPos.x + 2, newTargetPos.y + 2, newTargetPos.z + 2));
 			}
 
 			// Render the scene
