@@ -93,6 +93,7 @@ public:
     float getMass() const {return mass;}
 	Body(std::string name, float mass, double radius, Vector acc, Vector speed, Point pos);
 	void update(double delta_t, std::vector<Body> bodies);
+	void render();
 };
 
 #endif // FORMS_H_INCLUDED

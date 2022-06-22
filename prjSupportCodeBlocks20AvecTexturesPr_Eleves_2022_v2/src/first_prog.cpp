@@ -13,6 +13,7 @@
 #include "geometry.h"
 // Module for generating and rendering forms
 #include "forms.h"
+#include <vector>
 
 
 /***************************************************************************/
@@ -31,7 +32,7 @@ const int MAX_FORMS_NUMBER = 10;
 const Uint32 ANIM_DELAY = 10;
 
 // Render actualization delay 40 (in ms) => 25 updates per second
-const Uint32 FRAME_DELAY = 1000;
+const Uint32 FRAME_DELAY = 40;
 
 
 // Starts up SDL, creates window, and initializes OpenGL
@@ -126,7 +127,7 @@ bool initGL()
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // Fix aspect ratio and depth clipping planes
-    gluPerspective(40.0, (GLdouble)SCREEN_WIDTH/SCREEN_HEIGHT, 1.0, 100.0);
+    gluPerspective(40.0, (GLdouble)SCREEN_WIDTH/SCREEN_HEIGHT, 1.0, 100000000.0);
 
     // Initialize Modelview Matrix
     glMatrixMode(GL_MODELVIEW);
@@ -316,14 +317,14 @@ int main(int argc, char* args[])
         SDL_Event event;
 
         // Camera position
-        double hCam = 100;
+        double hCam = 10;
         double rho = -45;
         Point camera_position;
 
         // Textures creation //////////////////////////////////////////////////////////
         GLuint textureid_1, textureid_2;
-        createTextureFromImage("resources/images/earth_texture.jpg", &textureid_1);
-        createTextureFromImage("resources/images/tiles.bmp", &textureid_2);
+        createTextureFromImage("resources/images/earth.jpg", &textureid_1);
+        createTextureFromImage("resources/images/sun.jpg", &textureid_2);
         // Textures ready to be enabled (with private member " texture_id" of each form)
 
 
@@ -359,31 +360,46 @@ int main(int argc, char* args[])
 //        number_of_forms++;
 
         // Spheres
+        std::vector<Body> bodies;
         Body* pSphere = NULL;
         Animation sphAnim;
-        pSphere = new Body("Terre",5.972*pow(10,24),10,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere = new Body("Terre",597.2,1,Vector(0,0,0),Vector(0,0,0), Point(3,0,0));
 
 
         pSphere->setTexture(textureid_1);
 
         forms_list[number_of_forms] = pSphere;
+        bodies.push_back(*pSphere);
+        number_of_forms++;
+
+        Body* pSphere2 = NULL;
+        Animation sphAnim2;
+        pSphere2 = new Body("Soleil",1989,1,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+
+
+        pSphere2->setTexture(textureid_2);
+
+        forms_list[number_of_forms] = pSphere2;
+        bodies.push_back(*pSphere2);
         number_of_forms++;
 
 
         /*Body* pSphere2 = NULL;
-        Animation sphAnim;
-        pSphere2 = new Body("Soleil",5.972*pow(10,24),10,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
-        sphAnim.setPos(Point(1.5,0,0));
-        sphAnim.setPhi(0.1); // angle en degre
-        sphAnim.setTheta(0.2); // angle en degre
-        sphAnim.setSpeed(Vector(-0.1,0,0)); // v initiale colineaire a Ox
-        pSphere2->setAnim(sphAnim);
+        Animation sphAnim2;
+        pSphere2 = new Body("Soleil",5.972,10,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        sphAnim2.setPos(Point(1.5,0,0));
+        sphAnim2.setPhi(0.1); // angle en degre
+        sphAnim2.setTheta(0.2); // angle en degre
+        sphAnim2.setSpeed(Vector(-0.1,0,0)); // v initiale colineaire a Ox
+        pSphere2->setAnim(sphAnim2);
         pSphere2->setTexture(textureid_1);
         pSphere2->getAnim().setPhi(10);
         forms_list[number_of_forms] = pSphere;
-        number_of_forms++;*/
+        number_of_forms++;
 
-        /*pSphere = new Sphere(0.3, RED);
+
+        Sphere* pSphere = NULL;
+        pSphere = new Sphere(0.3, RED);
         Animation sphAnim2;
         sphAnim2.setPos(Point(1,1,0));
         sphAnim2.setSpeed(Vector(-0.2,-0.2,0)); // v initiale dans plan x0y
@@ -450,6 +466,10 @@ int main(int argc, char* args[])
             {
                 previous_time_anim = current_time;
                 update(forms_list, 1e-3 * elapsed_time_anim); // International system units : seconds
+                for(int i=0; i<bodies.size();i++){
+                    bodies.at(i).update(1e-3 * elapsed_time_anim,bodies);
+
+                }
             }
 
             // Render the scene
@@ -459,6 +479,7 @@ int main(int argc, char* args[])
             {
                 previous_time_render = current_time;
                 render(forms_list, camera_position, rho);
+                std::cout<<bodies.at(0).getAnim().getPos().x<<std::endl;
 
                 // Update window screen
                 SDL_GL_SwapWindow(gWindow);
