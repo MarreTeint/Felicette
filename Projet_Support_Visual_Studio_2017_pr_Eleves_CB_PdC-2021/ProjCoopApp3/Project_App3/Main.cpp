@@ -192,14 +192,15 @@ void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
 
 	// Set the camera position and parameters
 	gluLookAt(cam.getAnim().getPos().x, cam.getAnim().getPos().y, cam.getAnim().getPos().z, 0, 0, 0, 0.0, 1.0, 0.0);
-	glTranslated(-cam.getLookTarget().x, -cam.getLookTarget().y, -cam.getLookTarget().z);
-	
+
 	Vector camVec = Vector(cam.getLookTarget().x - cam.getAnim().getPos().x, cam.getLookTarget().y - cam.getAnim().getPos().y, cam.getLookTarget().z - cam.getAnim().getPos().z);
 	Vector horizCam = camVec ^ Vector(0, 1, 0);
 	horizCam = 1 / horizCam.norm() * horizCam;
 	glRotated(cam.getAnim().getPhi(), 0, 1, 0);
 	glRotated(cam.getAnim().getTheta(), horizCam.x, horizCam.y, horizCam.z);
 	glScaled(cam.getZoom(), cam.getZoom(), cam.getZoom());
+
+	glTranslated(-cam.getLookTarget().x, -cam.getLookTarget().y, -cam.getLookTarget().z);
 
 	// X, Y and Z axis
 	glPushMatrix(); // Preserve the camera viewing point for further forms
@@ -282,6 +283,7 @@ int main(int argc, char* args[])
 		number_of_forms++;
 		Sphere *sph = NULL;
 		sph = new Sphere(0.2, BLUE);
+		sph->getAnim().setPos(Point(2, 0, 0));
 		forms_list[number_of_forms] = sph;
 		number_of_forms++;
 
@@ -289,6 +291,8 @@ int main(int argc, char* args[])
 		camera.setZoom(1);
 
 		int click = 0;
+		int cameraTargetId = 0;
+		int cameraIsSwitchingTarget = 0;
 		// Get first "current time"
 		previous_time = SDL_GetTicks();
 		// While application is running
@@ -319,6 +323,7 @@ int main(int argc, char* args[])
 					case SDLK_ESCAPE:
 						quit = true;
 						break;
+					// Camera movement
 					case SDLK_UP:
 						camera.getAnim().incrTheta(-1);
 						break;
@@ -331,7 +336,10 @@ int main(int argc, char* args[])
 					case SDLK_RIGHT:
 						camera.getAnim().incrPhi(-1);
 						break;
-
+					// Camera target cycle
+					case SDLK_TAB:
+						cameraIsSwitchingTarget = 1;
+						cameraTargetId = (cameraTargetId + 1) % number_of_forms;
 					default:
 						break;
 					}
@@ -363,6 +371,14 @@ int main(int argc, char* args[])
 				default:
 					break;
 				}
+			}
+			// Update camera target
+			if (cameraIsSwitchingTarget == 1)
+			{
+				cameraIsSwitchingTarget = 0;
+				Point newTargetPos = forms_list[cameraTargetId]->getAnim().getPos();
+				camera.setLookTarget(newTargetPos);
+				camera.getAnim().setPos(Point(newTargetPos.x + 2, newTargetPos.y + 2, newTargetPos.z + 2));
 			}
 
 			// Update the scene
