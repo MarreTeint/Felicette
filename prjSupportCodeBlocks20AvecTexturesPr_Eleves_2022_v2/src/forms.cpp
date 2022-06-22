@@ -16,6 +16,7 @@ void Form::render()
     // Point of view for rendering
     // Common for all Forms
     Point org = anim.getPos();
+
     glTranslated(org.x, org.y, org.z);
 
     glRotated(anim.getTheta(), 1,0,0);
@@ -192,11 +193,14 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 				//Calculer la distance
 				double dist = distance(posIni, contact);//sqrt(pow((contact.x-posIni.x),2) + pow((contact.y - posIni.y),2) + pow((contact.z - posIni.z),2));
 
-				//Calculer la gravitée
+				//Calculer l'accélération
 				float grav = (G* bodies.at(j).getMass()) / pow(dist,2);
+				//
+
 				grav=grav*pow(10,10);
 				Vector vgrav = Vector(grav*(contact.x-posIni.x)/dist, grav*(contact.y - posIni.y) / dist, grav*(contact.z - posIni.z) / dist);
-				std::cout<<vgrav.norm()/grav<<std::endl;
+
+
 				vectors.push_back(vgrav);
 			}
 		}
@@ -209,11 +213,13 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 		Vector newSpeed = Vector(graGlobal.x*delta_t + vIni.x, graGlobal.y*delta_t + vIni.y, graGlobal.z*delta_t + vIni.z);
 		Point newPos = Point(1/2*graGlobal.x*pow(delta_t, 2) + vIni.x*delta_t + posIni.x, 1/2*graGlobal.y*pow(delta_t, 2) + vIni.y*delta_t + posIni.y, 1/2*graGlobal.z*pow(delta_t, 2) + vIni.z*delta_t + posIni.z);
 		//setter
+
 		this->anim.setSpeed(newSpeed);
 		this->anim.setPos(newPos);
 		/*std::cout<<"Vitesse "<<name<<" x : "<<newSpeed.x<<" y : "<<newSpeed.y<<" z : "<<newSpeed.z<<std::endl;
 		std::cout<<name<<" x : "<<newPos.x<<" y : "<<newPos.y<<" z : "<<newPos.z<<std::endl;*/
 		//Sphere::update(delta_t);
+		//this->render();
 }
 
 void Body::render(){

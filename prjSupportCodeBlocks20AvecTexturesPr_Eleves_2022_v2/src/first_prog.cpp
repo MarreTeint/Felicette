@@ -45,7 +45,7 @@ bool initGL();
 void update(Form* formlist[MAX_FORMS_NUMBER], double delta_t);
 
 // Renders scene to the screen
-void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos, double angle);
+void render(std::vector<Body> bodies, const Point &cam_pos, double angle);
 
 // Frees media and shuts down SDL
 void close(SDL_Window** window);
@@ -190,7 +190,7 @@ void update(Form* formlist[MAX_FORMS_NUMBER], double delta_t)
     }
 }
 
-void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos, double angle)
+void render(std::vector<Body> bodies, const Point &cam_pos, double angle)
 {
     // Clear color buffer and Z-Buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -225,10 +225,10 @@ void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos, double angle
 
     // Render the list of forms
     unsigned short i = 0;
-    while(formlist[i] != NULL)
+    for(int i=0;i<bodies.size(); i++)
     {
         glPushMatrix(); // Preserve the camera viewing point for further forms
-        formlist[i]->render();
+        bodies.at(i).render();
         glPopMatrix(); // Restore the camera viewing point for next object
         i++;
     }
@@ -317,24 +317,31 @@ int main(int argc, char* args[])
         SDL_Event event;
 
         // Camera position
-        double hCam = 10;
+        double hCam = 400;
         double rho = -45;
         Point camera_position;
 
         // Textures creation //////////////////////////////////////////////////////////
-        GLuint textureid_1, textureid_2;
-        createTextureFromImage("resources/images/earth.jpg", &textureid_1);
-        createTextureFromImage("resources/images/sun.jpg", &textureid_2);
+        GLuint soleil, mercure, venus, terre, mars, jupiter, saturne, uranus, neptune;
+        createTextureFromImage("resources/images/earth.jpg", &terre);
+        createTextureFromImage("resources/images/sun.jpg", &soleil);
+        createTextureFromImage("resources/images/mars.jpg", &mars);
+        createTextureFromImage("resources/images/mercure.jpg", &mercure);
+        createTextureFromImage("resources/images/neptune.jpg", &neptune);
+        createTextureFromImage("resources/images/saturne.jpg", &saturne);
+        createTextureFromImage("resources/images/uranus.jpg", &uranus);
+        createTextureFromImage("resources/images/venus.jpg", &venus);
+        createTextureFromImage("resources/images/jupiter.jpg", &jupiter);
         // Textures ready to be enabled (with private member " texture_id" of each form)
 
 
         // The forms to render
-        Form* forms_list[MAX_FORMS_NUMBER];
+        /*Form* forms_list[MAX_FORMS_NUMBER];
         unsigned short number_of_forms = 0, i;
         for (i=0; i<MAX_FORMS_NUMBER; i++)
         {
             forms_list[i] = NULL;
-        }
+        }*/
         // Create here specific forms and add them to the list...
         // Don't forget to update the actual number_of_forms !
         /*Cube_face *pFace = NULL;
@@ -361,28 +368,69 @@ int main(int argc, char* args[])
 
         // Spheres
         std::vector<Body> bodies;
-        Body* pSphere = NULL;
-        Animation sphAnim;
-        pSphere = new Body("Terre",597.2,1,Vector(0,0,0),Vector(1,0,0), Point(3,0,0));
-
-
-        pSphere->setTexture(textureid_1);
-
-        forms_list[number_of_forms] = pSphere;
-        bodies.push_back(*pSphere);
-        number_of_forms++;
 
         Body* pSphere2 = NULL;
-        Animation sphAnim2;
-        pSphere2 = new Body("Soleil",1989,1,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
-
-
-        pSphere2->setTexture(textureid_2);
-
-        forms_list[number_of_forms] = pSphere2;
+        pSphere2 = new Body("Soleil",19890000000,1,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere2->setTexture(soleil);
+        //forms_list[number_of_forms] = pSphere2;
         bodies.push_back(*pSphere2);
-        number_of_forms++;
+        //number_of_forms++;
 
+        Body* pSphere3 = NULL;
+        pSphere3 = new Body("Mercure",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(3,0,0));
+        pSphere3->setTexture(mercure);
+//        forms_list[number_of_forms] = pSphere3;
+        bodies.push_back(*pSphere3);
+  //      number_of_forms++;
+
+        Body* pSphere4 = NULL;
+        pSphere4 = new Body("Venus",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(6,0,0));
+        pSphere4->setTexture(venus);
+    //    forms_list[number_of_forms] = pSphere4;
+        bodies.push_back(*pSphere4);
+      //  number_of_forms++;
+
+        Body* pSphere = NULL;
+        pSphere = new Body("Terre",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(9,0,0));
+        pSphere->setTexture(terre);
+//        forms_list[number_of_forms] = pSphere;
+        bodies.push_back(*pSphere);
+//        number_of_forms++;
+
+        Body* pSphere5 = NULL;
+        pSphere5 = new Body("Mars",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(12,0,0));
+        pSphere5->setTexture(mars);
+ //       forms_list[number_of_forms] = pSphere5;
+        bodies.push_back(*pSphere5);
+ //       number_of_forms++;
+
+        Body* pSphere6 = NULL;
+        pSphere6 = new Body("Jupiter",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(15,0,0));
+        pSphere6->setTexture(jupiter);
+  //      forms_list[number_of_forms] = pSphere6;
+        bodies.push_back(*pSphere6);
+  //      number_of_forms++;
+
+        Body* pSphere7 = NULL;
+        pSphere7 = new Body("Saturne",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(18,0,0));
+        pSphere7->setTexture(saturne);
+   //     forms_list[number_of_forms] = pSphere7;
+        bodies.push_back(*pSphere7);
+   //     number_of_forms++;
+
+        Body* pSphere8 = NULL;
+        pSphere8 = new Body("Uranus",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(21,0,0));
+        pSphere8->setTexture(uranus);
+    //    forms_list[number_of_forms] = pSphere8;
+        bodies.push_back(*pSphere8);
+   //     number_of_forms++;
+
+        Body* pSphere9 = NULL;
+        pSphere9 = new Body("Neptune",597.2,1,Vector(0,0,0),Vector(0,1,0), Point(24,0,0));
+        pSphere9->setTexture(neptune);
+   //     forms_list[number_of_forms] = pSphere9;
+        bodies.push_back(*pSphere9);
+    //    number_of_forms++;
 
         /*Body* pSphere2 = NULL;
         Animation sphAnim2;
@@ -465,7 +513,7 @@ int main(int argc, char* args[])
             if (elapsed_time_anim > ANIM_DELAY)
             {
                 previous_time_anim = current_time;
-                update(forms_list, 1e-3 * elapsed_time_anim); // International system units : seconds
+                //update(forms_list, 1e-3 * elapsed_time_anim); // International system units : seconds
                 for(int i=0; i<bodies.size();i++){
                     bodies.at(i).update(1e-3 * elapsed_time_anim,bodies);
 
@@ -478,7 +526,7 @@ int main(int argc, char* args[])
             if (elapsed_time_render > FRAME_DELAY)
             {
                 previous_time_render = current_time;
-                render(forms_list, camera_position, rho);
+                render(bodies, camera_position, rho);
 
 
                 // Update window screen
