@@ -126,13 +126,3 @@ Vector operator^(const Vector &v1, const Vector &v2)
 
     return res;
 }
-
-// Rodrigues' rotation formula
-// v vector to rotate around the axis k, a unit vector
-Vector rodriguesRot(Vector v, Vector k, double theta)
-{
-	Vector vrot;
-	//vrot = v * cos(theta) + (k ^ v)*sin(theta) + k * (k * v)*(1 - cos(theta));
-	vrot = v + sin(theta)*(k^v) + (1 - cos(theta))*(k ^ (k ^ v));
-	return vrot;
-}

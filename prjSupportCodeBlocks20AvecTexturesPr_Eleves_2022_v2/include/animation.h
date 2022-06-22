@@ -2,7 +2,6 @@
 #define ANIMATION_H_INCLUDED
 
 #include "geometry.h"
-#include <algorithm>
 
 
 class Animation
@@ -28,9 +27,7 @@ public:
     void setSpeed(Vector vect) {spd = vect;}
     Point getPos() const {return pos;}
     void setPos(Point pt) {pos = pt;}
-	void incrPhi(double x) { phi = phi + x; }
-	void incrTheta(double x) { theta = theta + x;  }
-};
 
+};
 
 #endif // ANIMATION_H_INCLUDED

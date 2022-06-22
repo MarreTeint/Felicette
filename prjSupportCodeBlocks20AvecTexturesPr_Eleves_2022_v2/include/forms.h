@@ -3,6 +3,8 @@
 
 #include "geometry.h"
 #include "animation.h"
+#include <string>
+#include <vector>
 
 
 class Color
@@ -47,10 +49,13 @@ private:
     // The sphere center is aligned with the coordinate system origin
     // => no center required here, information is stored in the anim object
     double radius;
+    // Texture
+    GLuint texture_id;
 public:
     Sphere(double r = 1.0, Color cl = Color());
     double getRadius() const {return radius;}
     void setRadius(double r) {radius = r;}
+    void setTexture(GLuint textureid) {texture_id = textureid;}
     void update(double delta_t);
     void render();
 };
@@ -62,12 +67,33 @@ class Cube_face : public Form
 private:
     Vector vdir1, vdir2;
     double length, width;
+    // Texture
+    GLuint texture_id;
+
 public:
     Cube_face(Vector v1 = Vector(1,0,0), Vector v2 = Vector(0,0,1),
           Point org = Point(), double l = 1.0, double w = 1.0,
           Color cl = Color());
     void update(double delta_t);
+    void setTexture(GLuint textureid) {texture_id = textureid;}
     void render();
+};
+
+
+class Body : public Sphere
+{
+private:
+    std::string name;
+    float mass;
+	void setName(std::string x) { name = x; }
+	void setMass(float x) { mass = x; }
+
+public:
+	std::string getName() const {return name;}
+    float getMass() const {return mass;}
+	Body(std::string name, float mass, double radius, Vector acc, Vector speed, Point pos);
+	void update(double delta_t, std::vector<Body> bodies);
+	void render();
 };
 
 #endif // FORMS_H_INCLUDED
