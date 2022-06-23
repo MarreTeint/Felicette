@@ -51,7 +51,7 @@ void Sphere::render()
     gluQuadricTexture(quad,texture_id);
     gluQuadricNormals(quad,GLU_SMOOTH);
 
-    gluSphere(quad, radius, 20, 20);
+    gluSphere(quad, radius, 65536, 65536);
 
     gluDeleteQuadric(quad);
 

@@ -127,7 +127,7 @@ bool initGL()
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // Fix aspect ratio and depth clipping planes
-    gluPerspective(40.0, (GLdouble)SCREEN_WIDTH/SCREEN_HEIGHT, 1.0, 100000000.0);
+    gluPerspective(40.0, (GLdouble)SCREEN_WIDTH/SCREEN_HEIGHT, 1.0, 1000000000000000000.0);
 
     // Initialize Modelview Matrix
     glMatrixMode(GL_MODELVIEW);
@@ -190,7 +190,7 @@ void update(Form* formlist[MAX_FORMS_NUMBER], double delta_t)
     }
 }
 
-void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
+void render(std::vector<Body> bodies, Camera &cam)
 
 {
 	// Clear color buffer and Z-Buffer
@@ -209,7 +209,7 @@ void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
 	glRotated(cam.getAnim().getPhi(), 0, 1, 0);
 	glRotated(cam.getAnim().getTheta(), horizCam.x, horizCam.y, horizCam.z);
 	glScaled(cam.getZoom(), cam.getZoom(), cam.getZoom());
-
+    glTranslated(-cam.getLookTarget().x, -cam.getLookTarget().y, -cam.getLookTarget().z);
     // Render the list of forms
     unsigned short i = 0;
     for(int i=0;i<bodies.size(); i++)
@@ -219,7 +219,7 @@ void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
         glPopMatrix(); // Restore the camera viewing point for next object
     }
 
-	glTranslated(-cam.getLookTarget().x, -cam.getLookTarget().y, -cam.getLookTarget().z);
+
 
 	// X, Y and Z axis
 	glPushMatrix(); // Preserve the camera viewing point for further forms
@@ -338,14 +338,14 @@ int main(int argc, char* args[])
 
 
         // The forms to render
-        /*Form* forms_list[MAX_FORMS_NUMBER];
+        Form* forms_list[MAX_FORMS_NUMBER];
         unsigned short number_of_forms = 0, i;
         for (i=0; i<MAX_FORMS_NUMBER; i++)
         {
             forms_list[i] = NULL;
         }
 
-*/
+
 
         // Spheres
         std::vector<Body> bodies;
@@ -353,75 +353,74 @@ int main(int argc, char* args[])
         Body* pSphere2 = NULL;
         pSphere2 = new Body("Soleil",19,3,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere2->setTexture(soleil);
-        //forms_list[number_of_forms] = pSphere2;
+        forms_list[number_of_forms] = pSphere2;
         bodies.push_back(*pSphere2);
-        //number_of_forms++;
+        number_of_forms++;
 
        Body* pSphere3 = NULL;
-        pSphere3 = new Body("Mercure",3.3,1,Vector(0,0,0),Vector(0,0,0), Point(430,0));
+        pSphere3 = new Body("Mercure",3.3,1,Vector(0,0,0),Vector(0,0,0), Point(4,0));
         pSphere3->setTexture(mercure);
-//        forms_list[number_of_forms] = pSphere3;
+        forms_list[number_of_forms] = pSphere3;
         bodies.push_back(*pSphere3);
-  //      number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere4 = NULL;
         pSphere4 = new Body("Venus",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(6,0,0));
         pSphere4->setTexture(venus);
-    //    forms_list[number_of_forms] = pSphere4;
+        forms_list[number_of_forms] = pSphere4;
         bodies.push_back(*pSphere4);
-      //  number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere = NULL;
         pSphere = new Body("Terre",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(9,0,0));
         pSphere->setTexture(terre);
-//        forms_list[number_of_forms] = pSphere;
+       forms_list[number_of_forms] = pSphere;
         bodies.push_back(*pSphere);
-//        number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere5 = NULL;
         pSphere5 = new Body("Mars",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(12,0,0));
         pSphere5->setTexture(mars);
- //       forms_list[number_of_forms] = pSphere5;
+        forms_list[number_of_forms] = pSphere5;
         bodies.push_back(*pSphere5);
- //       number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere6 = NULL;
         pSphere6 = new Body("Jupiter",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(15,0,0));
         pSphere6->setTexture(jupiter);
-  //      forms_list[number_of_forms] = pSphere6;
+        forms_list[number_of_forms] = pSphere6;
         bodies.push_back(*pSphere6);
-  //      number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere7 = NULL;
         pSphere7 = new Body("Saturne",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(18,0,0));
         pSphere7->setTexture(saturne);
-   //     forms_list[number_of_forms] = pSphere7;
+        forms_list[number_of_forms] = pSphere7;
         bodies.push_back(*pSphere7);
-   //     number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere8 = NULL;
         pSphere8 = new Body("Uranus",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(21,0,0));
         pSphere8->setTexture(uranus);
-    //    forms_list[number_of_forms] = pSphere8;
+        forms_list[number_of_forms] = pSphere8;
         bodies.push_back(*pSphere8);
-   //     number_of_forms++;
+        number_of_forms++;
 
         Body* pSphere9 = NULL;
         pSphere9 = new Body("Neptune",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(24,0,0));
         pSphere9->setTexture(neptune);
-   //     forms_list[number_of_forms] = pSphere9;
+        forms_list[number_of_forms] = pSphere9;
         bodies.push_back(*pSphere9);
-    //    number_of_forms++;
+        number_of_forms++;
 
-       /* Body* pSphere10 = NULL;
-        pSphere10 = new Body("Univers",0,300,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
-        pSphere10->setTexture(univers);
+        Sphere* pSphere10 = NULL;
+        pSphere10 = new Sphere(300,RED);
+        //pSphere10->setTexture(univers);
    //     forms_list[number_of_forms] = pSphere9;
-        bodies.push_back(*pSphere10);*/
+        //bodies.push_back(*pSphere10);
 
         Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
 		camera.setZoom(1);
-
 		int click = 0;
 		int cameraTargetId = 0;
         // Get first "current time"
@@ -465,7 +464,7 @@ int main(int argc, char* args[])
 						break;
 					// Camera target cycle
 					case SDLK_TAB:
-						cameraTargetId = (cameraTargetId + 1) % number_of_forms;
+						cameraTargetId = (cameraTargetId + 1) % bodies.size();
                     default:
                         break;
                     }
@@ -512,18 +511,18 @@ int main(int argc, char* args[])
                     bodies.at(i).update(1e-3 * elapsed_time_anim,bodies);
 
                 }
-                // Camera update
-				Point newTargetPos = forms_list[cameraTargetId]->getAnim().getPos();
-				camera.setLookTarget(newTargetPos);
-				camera.getAnim().setPos(Point(newTargetPos.x + 2, newTargetPos.y + 2, newTargetPos.z + 2));
-            }
 
+            }
+            // Camera update
+				Point newTargetPos = bodies.at(cameraTargetId).getAnim().getPos();
+				camera.setLookTarget(newTargetPos);
+				camera.getAnim().setPos(Point(newTargetPos.x + 20, newTargetPos.y + 20, newTargetPos.z + 20));
             // Render the scene
             if (elapsed_time_render > FRAME_DELAY)
             {
                 previous_time_render = current_time;
-
-                render(forms_list, camera);
+                pSphere10->render();
+                render(bodies, camera);
 
 
                 // Update window screen
