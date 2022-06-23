@@ -351,27 +351,27 @@ int main(int argc, char* args[])
         std::vector<Body> bodies;
 
         Body* pSphere2 = NULL;
-        pSphere2 = new Body("Soleil",19,3,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere2 = new Body("Soleil",19890000,7000,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere2->setTexture(soleil);
         forms_list[number_of_forms] = pSphere2;
         bodies.push_back(*pSphere2);
         number_of_forms++;
 
        Body* pSphere3 = NULL;
-        pSphere3 = new Body("Mercure",3.3,1,Vector(0,0,0),Vector(0,0,0), Point(4,0));
+        pSphere3 = new Body("Mercure",3.3,2.5,Vector(0,0,0),Vector(0,0,400), Point(3000,0,0));
         pSphere3->setTexture(mercure);
         forms_list[number_of_forms] = pSphere3;
         bodies.push_back(*pSphere3);
         number_of_forms++;
 
-        Body* pSphere4 = NULL;
-        pSphere4 = new Body("Venus",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(6,0,0));
+      /*   Body* pSphere4 = NULL;
+        pSphere4 = new Body("Venus",3.2,1,Vector(0,0,0),Vector(-2,0,3), Point(10,0,0));
         pSphere4->setTexture(venus);
         forms_list[number_of_forms] = pSphere4;
         bodies.push_back(*pSphere4);
         number_of_forms++;
 
-        Body* pSphere = NULL;
+       Body* pSphere = NULL;
         pSphere = new Body("Terre",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(9,0,0));
         pSphere->setTexture(terre);
        forms_list[number_of_forms] = pSphere;
@@ -415,9 +415,9 @@ int main(int argc, char* args[])
 
         Sphere* pSphere10 = NULL;
         pSphere10 = new Sphere(300,RED);
-        //pSphere10->setTexture(univers);
+        pSphere10->setTexture(univers);
    //     forms_list[number_of_forms] = pSphere9;
-        //bodies.push_back(*pSphere10);
+        //bodies.push_back(*pSphere10);*/
 
         Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
 		camera.setZoom(1);
@@ -516,12 +516,12 @@ int main(int argc, char* args[])
             // Camera update
 				Point newTargetPos = bodies.at(cameraTargetId).getAnim().getPos();
 				camera.setLookTarget(newTargetPos);
-				camera.getAnim().setPos(Point(newTargetPos.x + 20, newTargetPos.y + 20, newTargetPos.z + 20));
+				camera.getAnim().setPos(Point(newTargetPos.x + 0, newTargetPos.y + 1000, newTargetPos.z + 0));
             // Render the scene
             if (elapsed_time_render > FRAME_DELAY)
             {
                 previous_time_render = current_time;
-                pSphere10->render();
+               // pSphere10->render();
                 render(bodies, camera);
 
 
