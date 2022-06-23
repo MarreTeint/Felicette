@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_opengl.h>
+//#include <SDL/SDL_ttf.h>
 #include <GL/GLU.h>
 
 // Module for space geometry
@@ -127,7 +128,7 @@ bool initGL()
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // Fix aspect ratio and depth clipping planes
-    gluPerspective(40.0, (GLdouble)SCREEN_WIDTH/SCREEN_HEIGHT, 1.0, 1000000000000000000.0);
+    gluPerspective(40.0, (GLdouble)SCREEN_WIDTH/SCREEN_HEIGHT, 1.0, 1.0e15);
 
     // Initialize Modelview Matrix
     glMatrixMode(GL_MODELVIEW);
@@ -296,6 +297,9 @@ int createTextureFromImage (const char* filename, GLuint* textureID)
     }
 }
 
+
+
+
 /***************************************************************************/
 /* MAIN Function                                                           */
 /***************************************************************************/
@@ -333,7 +337,7 @@ int main(int argc, char* args[])
         createTextureFromImage("resources/images/uranus.jpg", &uranus);
         createTextureFromImage("resources/images/venus.jpg", &venus);
         createTextureFromImage("resources/images/jupiter.jpg", &jupiter);
-        createTextureFromImage("resources/images/universe2.jpg", &univers);
+        createTextureFromImage("resources/images/universe.jpg", &univers);
         // Textures ready to be enabled (with private member " texture_id" of each form)
 
 
@@ -351,7 +355,7 @@ int main(int argc, char* args[])
         std::vector<Body> bodies;
 
         Body* pSphere2 = NULL;
-        pSphere2 = new Body("Soleil",19890000,7000,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere2 = new Body("Soleil",1,1,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere2->setTexture(soleil);
         forms_list[number_of_forms] = pSphere2;
         bodies.push_back(*pSphere2);
@@ -364,7 +368,7 @@ int main(int argc, char* args[])
         bodies.push_back(*pSphere3);
         number_of_forms++;
 
-      /*   Body* pSphere4 = NULL;
+         Body* pSphere4 = NULL;
         pSphere4 = new Body("Venus",3.2,1,Vector(0,0,0),Vector(-2,0,3), Point(10,0,0));
         pSphere4->setTexture(venus);
         forms_list[number_of_forms] = pSphere4;
@@ -413,11 +417,12 @@ int main(int argc, char* args[])
         bodies.push_back(*pSphere9);
         number_of_forms++;
 
-        Sphere* pSphere10 = NULL;
-        pSphere10 = new Sphere(300,RED);
+        Body* pSphere10 = NULL;
+        pSphere10 = new Body("Univers",0,10000,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere10->setTexture(univers);
+        bodies.push_back(*pSphere10);
    //     forms_list[number_of_forms] = pSphere9;
-        //bodies.push_back(*pSphere10);*/
+
 
         Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
 		camera.setZoom(1);
@@ -507,7 +512,7 @@ int main(int argc, char* args[])
             {
                 previous_time_anim = current_time;
 
-                for(int i=0; i<bodies.size();i++){
+                for(int i=0; i<bodies.size()-1;i++){
                     bodies.at(i).update(1e-3 * elapsed_time_anim,bodies);
 
                 }
@@ -516,12 +521,56 @@ int main(int argc, char* args[])
             // Camera update
 				Point newTargetPos = bodies.at(cameraTargetId).getAnim().getPos();
 				camera.setLookTarget(newTargetPos);
-				camera.getAnim().setPos(Point(newTargetPos.x + 0, newTargetPos.y + 1000, newTargetPos.z + 0));
+				camera.getAnim().setPos(Point(newTargetPos.x + 1, newTargetPos.y + 1000, newTargetPos.z + 1));
+
+
+				/* TEST */
+				//this opens a font style and sets a size
+/*TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
+
+// this is the color in rgb format,
+// maxing out all would give you the color white,
+// and it will be your text's color
+SDL_Color White = {255, 255, 255};
+
+// as TTF_RenderText_Solid could only be used on
+// SDL_Surface then you have to create the surface first
+SDL_Surface* surfaceMessage =
+    TTF_RenderText_Solid(Sans, bodies.at(cameraTargetId).getName(), White);
+
+// now you can convert it into a texture
+SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+SDL_Rect Message_rect; //create a rect
+Message_rect.x = 0;  //controls the rect's x coordinate
+Message_rect.y = 0; // controls the rect's y coordinte
+Message_rect.w = 100; // controls the width of the rect
+Message_rect.h = 100; // controls the height of the rect
+
+// (0,0) is on the top left of the window/screen,
+// think a rect as the text's box,
+// that way it would be very simple to understand
+
+// Now since it's a texture, you have to put RenderCopy
+// in your game loop area, the area where the whole code executes
+
+// you put the renderer's name first, the Message,
+// the crop size (you can ignore this if you don't want
+// to dabble with cropping), and the rect which is the size
+// and coordinate of your texture
+SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+
+// Don't forget to free your surface and texture
+SDL_FreeSurface(surfaceMessage);
+SDL_DestroyTexture(Message);
+
+/* *********************************** */
+
             // Render the scene
             if (elapsed_time_render > FRAME_DELAY)
             {
                 previous_time_render = current_time;
-               // pSphere10->render();
+
                 render(bodies, camera);
 
 
