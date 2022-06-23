@@ -218,7 +218,7 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 		this->anim.setPos(newPos);
 		//std::cout<<name<<" x : "<<newPos.x<<" y : "<<newPos.y<<" z : "<<newPos.z<<std::endl;
 		/*std::cout<<"Vitesse "<<name<<" x : "<<newSpeed.x<<" y : "<<newSpeed.y<<" z : "<<newSpeed.z<<std::endl;*/
-		std::cout<<name<<" x : "<<newPos.x<<" y : "<<newPos.y<<" z : "<<newPos.z<<std::endl;
+		std::cout<<name<<" x : "<<anim.getPos().x<<" y : "<<anim.getPos().y<<" z : "<<anim.getPos().z<<std::endl;
 		//Sphere::update(delta_t);
 		//this->render();
 }
