@@ -161,7 +161,7 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 		}
 		//Donner un vecteur gravité global
 		Vector graGlobal = Vector(0,0,0);
-		for (int k = 0; k < vectors.size(); k++) {
+		for (int k = 0; k < vectors.size()-1; k++) {
 			graGlobal = graGlobal + vectors.at(k);
 		}
 		//Calculer new position
