@@ -355,7 +355,7 @@ int main(int argc, char* args[])
         std::vector<Body> bodies;
 
         Body* pSphere2 = NULL;
-        pSphere2 = new Body("Soleil",1,1,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere2 = new Body("Soleil",1,10,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere2->setTexture(soleil);
         forms_list[number_of_forms] = pSphere2;
         bodies.push_back(*pSphere2);
@@ -369,56 +369,56 @@ int main(int argc, char* args[])
         number_of_forms++;
 
          Body* pSphere4 = NULL;
-        pSphere4 = new Body("Venus",3.2,1,Vector(0,0,0),Vector(-2,0,3), Point(10,0,0));
+        pSphere4 = new Body("Venus",3.2,2.5,Vector(0,0,0),Vector(-2,0,3), Point(10,0,0));
         pSphere4->setTexture(venus);
         forms_list[number_of_forms] = pSphere4;
         bodies.push_back(*pSphere4);
         number_of_forms++;
 
        Body* pSphere = NULL;
-        pSphere = new Body("Terre",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(9,0,0));
+        pSphere = new Body("Terre",3.2,2.5,Vector(0,0,0),Vector(0,0,0), Point(9,0,0));
         pSphere->setTexture(terre);
        forms_list[number_of_forms] = pSphere;
         bodies.push_back(*pSphere);
         number_of_forms++;
 
         Body* pSphere5 = NULL;
-        pSphere5 = new Body("Mars",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(12,0,0));
+        pSphere5 = new Body("Mars",3.2,2.5,Vector(0,0,0),Vector(0,0,0), Point(12,0,0));
         pSphere5->setTexture(mars);
         forms_list[number_of_forms] = pSphere5;
         bodies.push_back(*pSphere5);
         number_of_forms++;
 
         Body* pSphere6 = NULL;
-        pSphere6 = new Body("Jupiter",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(15,0,0));
+        pSphere6 = new Body("Jupiter",3.2,2.5,Vector(0,0,0),Vector(0,0,0), Point(15,0,0));
         pSphere6->setTexture(jupiter);
         forms_list[number_of_forms] = pSphere6;
         bodies.push_back(*pSphere6);
         number_of_forms++;
 
         Body* pSphere7 = NULL;
-        pSphere7 = new Body("Saturne",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(18,0,0));
+        pSphere7 = new Body("Saturne",3.2,2.5,Vector(0,0,0),Vector(0,0,0), Point(18,0,0));
         pSphere7->setTexture(saturne);
         forms_list[number_of_forms] = pSphere7;
         bodies.push_back(*pSphere7);
         number_of_forms++;
 
         Body* pSphere8 = NULL;
-        pSphere8 = new Body("Uranus",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(21,0,0));
+        pSphere8 = new Body("Uranus",3.2,2.5,Vector(0,0,0),Vector(0,0,0), Point(21,0,0));
         pSphere8->setTexture(uranus);
         forms_list[number_of_forms] = pSphere8;
         bodies.push_back(*pSphere8);
         number_of_forms++;
 
         Body* pSphere9 = NULL;
-        pSphere9 = new Body("Neptune",3.2,1,Vector(0,0,0),Vector(0,0,0), Point(24,0,0));
+        pSphere9 = new Body("Neptune",3.2,2.5,Vector(0,0,0),Vector(0,0,0), Point(24,0,0));
         pSphere9->setTexture(neptune);
         forms_list[number_of_forms] = pSphere9;
         bodies.push_back(*pSphere9);
         number_of_forms++;
 
         Body* pSphere10 = NULL;
-        pSphere10 = new Body("Univers",0,10000,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
+        pSphere10 = new Body("Univers",0,100000,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
         pSphere10->setTexture(univers);
         bodies.push_back(*pSphere10);
    //     forms_list[number_of_forms] = pSphere9;
