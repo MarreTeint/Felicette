@@ -33,45 +33,6 @@ Sphere::Sphere(double r, Color cl)
 
 void Sphere::update(double delta_t)
 {
-    // Complete this part
-
-    // Exemple d'animation liee a la physique :
-    // Dans un repere Galileen sans force appliquee un objet
-    // se deplace indefiniment a sa vitesse initiale :
-    // OM = OM + delta_t*V
-    // OM et V etant des vecteurs
-    // O : point origine du repere, M : point barycentre de l objet
-    // V : vecteur vitesse de l objet
-    Point ptM=this->anim.getPos();
-    Vector OM(Point(0,0,0),ptM);
-    Vector vit;
-    Vector g(0,-9.81,0);
-    //vit = this->anim.getSpeed() + 0.01*delta_t*g;
-    //this->anim.setSpeed(anim.getSpeed());
-    OM = OM + delta_t*this->anim.getSpeed();
-    ptM=Point(OM.x,OM.y,OM.z);
-    this->anim.setPos(ptM);
-
-    // Exemple d'animation non liee a de la physique
-    // Pourquoi la sphere rouge ne tourne t elle pas sur elle meme
-    // comme le fait la sphere Terre ?
-    double angle=this->anim.getPhi();
-    if(angle>0){
-        angle=angle+delta_t*10;
-    }
-    while(angle>360){
-            angle=angle-360;
-    }
-    this->anim.setPhi(angle);
-
-    angle=this->anim.getTheta();
-    if(angle>0){
-        angle=angle+delta_t*100;
-    }
-    while(angle>360){
-            angle=angle-360;
-    }
-    this->anim.setTheta(angle);
 }
 
 
@@ -111,13 +72,7 @@ Cube_face::Cube_face(Vector v1, Vector v2, Point org, double l, double w, Color 
 
 void Cube_face::update(double delta_t)
 {
-    // Angles update for the animation example
-    // Ceci n est qu un exemple d animation
-    // Aucune physique particuliere n est utilisee ici
-    anim.setPhi(anim.getPhi()+1);
-    anim.setTheta(anim.getTheta()+0.5);
 }
-
 
 void Cube_face::render()
 {
@@ -218,4 +173,30 @@ void Body::update(double delta_t, std::vector<Body> bodies)
 
 void Body::render(){
     Sphere::render();
+}
+
+void Camera::update(double delta_t)
+{
+
+}
+
+void Camera::render()
+{
+	Form::render();
+}
+
+Camera::Camera(Point lTarget, Point pos)
+{
+	//Form attribute
+
+	//Camera attribute
+	setLookTarget(lTarget);
+	anim.setPos(pos);
+}
+
+void Camera::rotAround(double angle, Vector v)
+{
+	Vector posVect(anim.getPos().x, anim.getPos().y, anim.getPos().z);
+	Vector newPosVect = rodriguesRot(posVect, 1 / v.norm() * v, angle);
+	anim.setPos(Point(newPosVect.x, newPosVect.y, newPosVect.z));
 }

@@ -190,48 +190,54 @@ void update(Form* formlist[MAX_FORMS_NUMBER], double delta_t)
     }
 }
 
-void render(Form* formlist[MAX_FORMS_NUMBER], const Point &cam_pos, double angle)
+void render(Form* formlist[MAX_FORMS_NUMBER], Camera &cam)
 {
-    // Clear color buffer and Z-Buffer
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Clear color buffer and Z-Buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Initialize Modelview Matrix
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
+	// Initialize Modelview Matrix
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-    // Set the camera position and parameters
-    gluLookAt(cam_pos.x,cam_pos.y,cam_pos.z, 0.0,0.0,0.0, 0.0,1.0,0.0);
-    // Isometric view
-    glRotated(angle, 0, 1, 0);
-    glRotated(30, 1, 0, -1);
+	// Set the camera position and parameters
+	gluLookAt(cam.getAnim().getPos().x, cam.getAnim().getPos().y, cam.getAnim().getPos().z, 0, 0, 0, 0.0, 1.0, 0.0);
 
-    // X, Y and Z axis
-    glPushMatrix(); // Preserve the camera viewing point for further forms
-    // Render the coordinates system
-    glBegin(GL_LINES);
-    {
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3i(0, 0, 0);
-        glVertex3i(1, 0, 0);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3i(0, 0, 0);
-        glVertex3i(0, 1, 0);
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3i(0, 0, 0);
-        glVertex3i(0, 0, 1);
-    }
-    glEnd();
-    glPopMatrix(); // Restore the camera viewing point for next object
+	Vector camVec = Vector(cam.getLookTarget().x - cam.getAnim().getPos().x, cam.getLookTarget().y - cam.getAnim().getPos().y, cam.getLookTarget().z - cam.getAnim().getPos().z);
+	Vector horizCam = camVec ^ Vector(0, 1, 0);
+	horizCam = 1 / horizCam.norm() * horizCam;
+	glRotated(cam.getAnim().getPhi(), 0, 1, 0);
+	glRotated(cam.getAnim().getTheta(), horizCam.x, horizCam.y, horizCam.z);
+	glScaled(cam.getZoom(), cam.getZoom(), cam.getZoom());
 
-    // Render the list of forms
-    unsigned short i = 0;
-    while(formlist[i] != NULL)
-    {
-        glPushMatrix(); // Preserve the camera viewing point for further forms
-        formlist[i]->render();
-        glPopMatrix(); // Restore the camera viewing point for next object
-        i++;
-    }
+	glTranslated(-cam.getLookTarget().x, -cam.getLookTarget().y, -cam.getLookTarget().z);
+
+	// X, Y and Z axis
+	glPushMatrix(); // Preserve the camera viewing point for further forms
+	// Render the coordinates system
+	glBegin(GL_LINES);
+	{
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3i(0, 0, 0);
+		glVertex3i(1, 0, 0);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3i(0, 0, 0);
+		glVertex3i(0, 1, 0);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3i(0, 0, 0);
+		glVertex3i(0, 0, 1);
+	}
+	glEnd();
+	glPopMatrix(); // Restore the camera viewing point for next object
+
+	// Render the list of forms
+	unsigned short i = 0;
+	while (formlist[i] != NULL)
+	{
+		glPushMatrix(); // Preserve the camera viewing point for further forms
+		formlist[i]->render();
+		glPopMatrix(); // Restore the camera viewing point for next object
+		i++;
+	}
 }
 
 void close(SDL_Window** window)
@@ -316,11 +322,6 @@ int main(int argc, char* args[])
         // Event handler
         SDL_Event event;
 
-        // Camera position
-        double hCam = 10;
-        double rho = -45;
-        Point camera_position;
-
         // Textures creation //////////////////////////////////////////////////////////
         GLuint textureid_1, textureid_2;
         createTextureFromImage("resources/images/earth.jpg", &textureid_1);
@@ -335,29 +336,6 @@ int main(int argc, char* args[])
         {
             forms_list[i] = NULL;
         }
-        // Create here specific forms and add them to the list...
-        // Don't forget to update the actual number_of_forms !
-        /*Cube_face *pFace = NULL;
-        pFace = new Cube_face(Vector(1,0,0), Vector(0,1,0), Point(-0.5, -0.5, -0.5), 1, 1, ORANGE); // For the cube
-        pFace = new Cube_face(Vector(1,0,0), Vector(0,1,0), Point(0.5, 0, 0.5), 1, 1, WHITE); // For the animation
-        pFace->setTexture(textureid_1);
-        forms_list[number_of_forms] = pFace;
-        number_of_forms++;*/
-//        pFace = new Cube_face(Vector(1,0,0), Vector(0,1,0), Point(-0.5, -0.5, 0.5), 1, 1, RED);
-//        forms_list[number_of_forms] = pFace;
-//        number_of_forms++;
-//        pFace = new Cube_face(Vector(1,0,0), Vector(0,0,1), Point(-0.5, -0.5, -0.5), 1, 1, BLUE);
-//        forms_list[number_of_forms] = pFace;
-//        number_of_forms++;
-//        pFace = new Cube_face(Vector(1,0,0), Vector(0,0,1), Point(-0.5, 0.5, -0.5), 1, 1, YELLOW);
-//        forms_list[number_of_forms] = pFace;
-//        number_of_forms++;
-//        pFace = new Cube_face(Vector(0,1,0), Vector(0,0,1), Point(-0.5, -0.5, -0.5), 1, 1, WHITE);
-//        forms_list[number_of_forms] = pFace;
-//        number_of_forms++;
-//        pFace = new Cube_face(Vector(0,1,0), Vector(0,0,1), Point(0.5, -0.5, -0.5), 1, 1, GREEN);
-//        forms_list[number_of_forms] = pFace;
-//        number_of_forms++;
 
         // Spheres
         std::vector<Body> bodies;
@@ -383,31 +361,11 @@ int main(int argc, char* args[])
         bodies.push_back(*pSphere2);
         number_of_forms++;
 
+        Camera camera = Camera(Point(0, 0, 0), Point(2, 2, 2));
+		camera.setZoom(1);
 
-        /*Body* pSphere2 = NULL;
-        Animation sphAnim2;
-        pSphere2 = new Body("Soleil",5.972,10,Vector(0,0,0),Vector(0,0,0), Point(0,0,0));
-        sphAnim2.setPos(Point(1.5,0,0));
-        sphAnim2.setPhi(0.1); // angle en degre
-        sphAnim2.setTheta(0.2); // angle en degre
-        sphAnim2.setSpeed(Vector(-0.1,0,0)); // v initiale colineaire a Ox
-        pSphere2->setAnim(sphAnim2);
-        pSphere2->setTexture(textureid_1);
-        pSphere2->getAnim().setPhi(10);
-        forms_list[number_of_forms] = pSphere;
-        number_of_forms++;
-
-
-        Sphere* pSphere = NULL;
-        pSphere = new Sphere(0.3, RED);
-        Animation sphAnim2;
-        sphAnim2.setPos(Point(1,1,0));
-        sphAnim2.setSpeed(Vector(-0.2,-0.2,0)); // v initiale dans plan x0y
-        pSphere->setAnim(sphAnim2);
-        pSphere->setTexture(textureid_2);
-        forms_list[number_of_forms] = pSphere;
-        number_of_forms++;*/
-
+		int click = 0;
+		int cameraTargetId = 0;
         // Get first "current time"
         previous_time_anim = previous_time_render = SDL_GetTicks();
         // While application is running
@@ -418,6 +376,7 @@ int main(int argc, char* args[])
             {
                 int x = 0, y = 0;
                 SDL_Keycode key_pressed = event.key.keysym.sym;
+                SDL_GetRelativeMouseState(&x, &y);
 
                 switch(event.type)
                 {
@@ -426,9 +385,6 @@ int main(int argc, char* args[])
                     quit = true;
                     break;
                 case SDL_KEYDOWN:
-                    // Handle key pressed with current mouse position
-                    SDL_GetMouseState( &x, &y );
-
                     switch(key_pressed)
                     {
                     // Quit the program when 'q' or Escape keys are pressed
@@ -436,25 +392,53 @@ int main(int argc, char* args[])
                     case SDLK_ESCAPE:
                         quit = true;
                         break;
-                    case SDLK_z:
-                        hCam += 0.5;
-                        break;
-                    case SDLK_s:
-                        hCam -= 0.5;
-                        break;
-                    case SDLK_o:
-                        rho += 5;
-                        break;
-                    case SDLK_p:
-                        rho -= 5;
-                        break;
+                    // Camera movement
+					case SDLK_UP:
+						camera.getAnim().incrTheta(-1);
+						break;
+					case SDLK_DOWN:
+						camera.getAnim().incrTheta(1);
+						break;
+					case SDLK_LEFT:
+						camera.getAnim().incrPhi(1);
+						break;
+					case SDLK_RIGHT:
+						camera.getAnim().incrPhi(-1);
+						break;
+					// Camera target cycle
+					case SDLK_TAB:
+						cameraTargetId = (cameraTargetId + 1) % number_of_forms;
                     default:
                         break;
                     }
                     break;
-                default:
-                    break;
-                }
+                //MOUSECONTROL
+				case SDL_MOUSEMOTION:
+					if (click == 1)
+					{
+						camera.getAnim().incrPhi(x);
+						camera.getAnim().incrTheta(y);
+					}
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					click = 1;
+					break;
+				case SDL_MOUSEBUTTONUP:
+					click = 0;
+					break;
+				case SDL_MOUSEWHEEL:
+					if (event.wheel.y > 0) // scroll up
+					{
+						camera.incrZoom(10);
+					}
+					if (event.wheel.y < 0)
+					{
+						camera.incrZoom(-10);
+					}
+
+				default:
+					break;
+				}
             }
 
             // Update the scene
@@ -465,20 +449,21 @@ int main(int argc, char* args[])
             if (elapsed_time_anim > ANIM_DELAY)
             {
                 previous_time_anim = current_time;
-                update(forms_list, 1e-3 * elapsed_time_anim); // International system units : seconds
                 for(int i=0; i<bodies.size();i++){
                     bodies.at(i).update(1e-3 * elapsed_time_anim,bodies);
 
                 }
+                // Camera update
+				Point newTargetPos = forms_list[cameraTargetId]->getAnim().getPos();
+				camera.setLookTarget(newTargetPos);
+				camera.getAnim().setPos(Point(newTargetPos.x + 2, newTargetPos.y + 2, newTargetPos.z + 2));
             }
 
             // Render the scene
-            camera_position = Point(0, hCam, 5);
-
             if (elapsed_time_render > FRAME_DELAY)
             {
                 previous_time_render = current_time;
-                render(forms_list, camera_position, rho);
+                render(forms_list, camera);
 
 
                 // Update window screen

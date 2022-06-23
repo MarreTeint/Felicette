@@ -7657,3 +7657,60 @@
 	<cmath>
 	"geometry.h"
 
+1655467782 source:c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\src\animation.cpp
+	"animation.h"
+
+1655985537 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\animation.h
+	"geometry.h"
+
+1655985393 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\geometry.h
+	<iostream>
+
+1655985485 source:c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\src\forms.cpp
+	<cmath>
+	<SDL2/SDL_opengl.h>
+	<GL/GLU.h>
+	"forms.h"
+	<string>
+
+1655908448 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\sdl2\sdl_opengl.h
+	"SDL_config.h"
+	"gl_mangle.h"
+	<windows.h>
+	"SDL_opengl_glext.h"
+
+1655908448 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+	<winsdkver.h>
+
+1655908448 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1655908448 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\sdl2\begin_code.h
+
+1655908448 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\sdl2\close_code.h
+
+1655908448 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\sdl2\sdl_opengl_glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1655985506 c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\include\forms.h
+	"geometry.h"
+	"animation.h"
+	<string>
+	<vector>
+
+1655985204 source:c:\users\bpili\documents\bastien-cb\projet_transverse_1\prjsupportcodeblocks20avectexturespr_eleves_2022_v2\src\geometry.cpp
+	<cmath>
+	"geometry.h"
+

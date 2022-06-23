@@ -42,6 +42,9 @@ public:
 // Compute the distance between two points
 double distance(Point p1, Point p2);
 
+// Rodrigues' rotation formula
+Vector rodriguesRot(Vector v, Vector k, double theta);
+
 // Overloaded standard operators
 std::ostream& operator<<(std::ostream& os, const Coordinates& coord);
 Vector operator+(const Vector &v1, const Vector &v2);
