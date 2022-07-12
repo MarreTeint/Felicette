@@ -5,7 +5,7 @@ Use OpenGL & SDL2 to realize a 3d simulation with a 2 week deadline.
 
 For this project, we had chosen to model the solar system.
 The different positions of the planets and the sun are calculated from the gravity forces between the different celestial bodies.
-## Control
+## Controls
 - Camera
   - Move with LMB+Move the mouse
   - Center the camera on the next body Tab
