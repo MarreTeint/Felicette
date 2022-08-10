@@ -1,5 +1,5 @@
 # Felicette
-Galaxy simulation project carried out at Polytech Paris Saclay
+Solar system simulation project carried out at Polytech Paris Saclay
 ## Objective
 Use OpenGL & SDL2 to realize a 3d simulation with a 2 week deadline.
 
